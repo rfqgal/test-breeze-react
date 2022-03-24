@@ -1,12 +1,11 @@
 <?php
 
+use App\Http\Controllers\ScrapeController;
 use App\Models\Merchant;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Nesk\Puphpeteer\Puppeteer;
-use Nesk\Rialto\Data\JsFunction;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,27 +48,6 @@ Route::get('/merchant', function () {
     ]);
 })->middleware(['auth', 'verified'])->name('merchant');
 
-Route::post('/scrape', function () {
-    $url = Request::post('url');
-
-    $puppeteer = new Puppeteer;
-    $browser = $puppeteer->launch();
-
-    $page = $browser->newPage();
-    $page->goto($url);
-    $page->screenshot(['path' => 'example.png']);
-
-    // Get the "viewport" of the page, as reported by the page.
-    $dimensions = $page->evaluate(JsFunction::create("
-        return {
-            width: document.documentElement.clientWidth,
-            height: document.documentElement.clientHeight,
-            deviceScaleFactor: window.devicePixelRatio
-        };
-    "));
-    printf('Dimensions: %s', print_r($dimensions, true));
-
-    $browser->close();
-})->middleware(['auth', 'verified'])->name('scrape');
+Route::post('/scrape', [ScrapeController::class, 'index'])->middleware(['auth', 'verified'])->name('scrape');
 
 require __DIR__.'/auth.php';

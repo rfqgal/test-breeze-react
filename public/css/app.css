@@ -1001,11 +1001,11 @@ input[type=file]::file-selector-button:hover {
 .max-w-2xl {
   max-width: 42rem;
 }
-.max-w-5xl {
-  max-width: 64rem;
-}
 .max-w-4xl {
   max-width: 56rem;
+}
+.max-w-5xl {
+  max-width: 64rem;
 }
 .flex-1 {
   flex: 1 1 0%;
@@ -1245,9 +1245,6 @@ input[type=file]::file-selector-button:hover {
 .p-1 {
   padding: 0.25rem;
 }
-.p-0 {
-  padding: 0px;
-}
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -1284,6 +1281,10 @@ input[type=file]::file-selector-button:hover {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
 .px-5 {
   padding-left: 1.25rem;
   padding-right: 1.25rem;
@@ -1295,10 +1296,6 @@ input[type=file]::file-selector-button:hover {
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
-}
-.py-3 {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
 }
 .pt-8 {
   padding-top: 2rem;
@@ -1326,9 +1323,6 @@ input[type=file]::file-selector-button:hover {
 }
 .pt-6 {
   padding-top: 1.5rem;
-}
-.pb-8 {
-  padding-bottom: 2rem;
 }
 .pb-12 {
   padding-bottom: 3rem;
