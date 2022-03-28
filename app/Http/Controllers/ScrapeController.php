@@ -11,15 +11,13 @@ class ScrapeController extends Controller
     public function index(Request $request)
     {
         $url = $request->url;
-        if (!str_contains($url, 'https://')) {
-            $url = 'https://'.$url.'/';
-        }
+        $url = !str_contains($url, 'https://' || 'http://') ? 'https://'.$url.'/' : $url;
 
         $browserInstance = $this->browser();
         $scraperController = $this->controller($browserInstance, $url);
 
         return response([
-            'url' => $url,
+            // 'url' => $url,
             'result' => $scraperController
         ]);
     }
@@ -43,10 +41,13 @@ class ScrapeController extends Controller
     
     public function controller($browserInstance, $url)
     {
+        $list = 'section div.o-layout.o-layout--responsive > div.o-layout__item';
+        $itemIdx = 'div.c-product-card-description > a';
+        
         $res = null;
         try {
             $browser = $browserInstance;
-            $res = $this->scraper($browser, $url);
+            $res = $this->scraper($browser, $url, $list, $itemIdx);
         } catch (\Throwable $th) {
             return response([
                 'error' => 'Could not resolve the browser instance => '.$th
@@ -55,48 +56,17 @@ class ScrapeController extends Controller
         return $res;
     }
 
-    public function scraper($browser, $url)
+    public function scraper($browser, $url, $list = 'section ol > li', $itemIdx = 'h3 > a')
     {
         $page = $browser->newPage();
         $page->goto($url);
 
-        $names = $page->querySelectorAllEval('section ol > li', JsFunction::createWithParameters(['titles'])->body("
+        $names = $page->querySelectorAllEval($list, JsFunction::createWithParameters(['titles', 'url', 'itemIdx'])->body("
             return {
-                titles: titles.map(el => el.querySelector('h3 > a').title)
+                url,
+                titles: titles.map(el => el.querySelector(itemIdx).title)
             };
-        "));
+        "), $url, $itemIdx);
         return $names;
-    }
-
-    public function example(Request $request)
-    {
-        $url = $request->url;
-
-        if (!str_contains($url, 'https://')) {
-            $url = 'https://'.$url;
-        }
-
-        $puppeteer = new Puppeteer();
-        $browser = $puppeteer->launch();
-
-        $page = $browser->newPage();
-        $page->goto($url);
-        // $page->screenshot(['path' => 'example.png']);
-
-        // Get the "viewport" of the page, as reported by the page.
-        $dimensions = $page->evaluate(JsFunction::create("
-            return {
-                width: document.documentElement.clientWidth,
-                height: document.documentElement.clientHeight,
-                deviceScaleFactor: window.devicePixelRatio
-            };
-        "));
-        // printf('Dimensions: %s', print_r($dimensions, true));
-        return response([
-            'url' => $url,
-            'dimensions' => $dimensions
-        ]);
-
-        $browser->close();
     }
 }
