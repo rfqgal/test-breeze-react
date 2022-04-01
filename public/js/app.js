@@ -3838,7 +3838,7 @@ function Dashboard(props) {
     }), data && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
       className: "pb-12",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Components_Card__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        className: "text-sm",
+        className: "text-sm overflow-auto",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("pre", {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("code", {
             children: JSON.stringify(data.data, null, 4)

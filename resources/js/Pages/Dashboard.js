@@ -42,7 +42,7 @@ export default function Dashboard(props) {
 
       {data && (
         <div className="pb-12">
-          <Card className="text-sm">
+          <Card className="text-sm overflow-auto">
             <pre><code>{JSON.stringify(data.data, null, 4)}</code></pre>
           </Card>
         </div>
